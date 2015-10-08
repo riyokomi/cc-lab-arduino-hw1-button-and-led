@@ -1,0 +1,52 @@
+//value record in seconds
+float pressLength_milliSeconds = 0;
+
+//define minumun lenght of time
+int optionOne_milliSeconds = 100;
+int optionTwo_milliSeconds = 1000;
+
+//button pin
+int buttonPin = 2;
+
+//LEDs pin
+int ledPin_Option_1 = 13;
+int ledPin_Option_2 = 12;
+
+
+void setup() {
+  //initialize the pushbutton pin as input pullup
+  pinMode(buttonPin, INPUT_PULLUP);
+
+  //set output: led pins
+  pinMode(ledPin_Option_1, OUTPUT);
+  pinMode(ledPin_Option_2, OUTPUT);
+
+  //start serial communication
+  Serial.begin(9600);
+}
+
+void loop() {
+  //record thenths of secs (button)
+  while(digitalRead(buttonPin) == LOW){
+    delay(100);
+    pressLength_milliSeconds = pressLength_milliSeconds + 100;
+
+    //show the length a button has been hold
+    Serial.print("ms = ");
+    Serial.println(pressLength_milliSeconds);
+  }
+
+  //option_2
+  if(pressLength_milliSeconds >= optionTwo_milliSeconds){
+    digitalWrite(ledPin_Option_2, HIGH);
+  }
+
+  //option_1
+  else if(pressLength_milliSeconds >= optionOne_milliSeconds){
+    digitalWrite(ledPin_Option_1, HIGH);
+  }
+  
+  pressLength_milliSeconds = 0;
+  
+  }
+
